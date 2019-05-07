@@ -3,7 +3,7 @@ package application;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 
-public class intersectionThread extends Thread{
+public class IntersectionThread extends Thread{
 		
         @Override
         public void run(){
@@ -42,4 +42,6 @@ public class intersectionThread extends Thread{
         boolean isIntersecting() {
         	return MainGameFormController.getInstance().path.getBoundsInParent().intersects(MainGameFormController.getInstance().image.getBoundsInParent());
         }
+        
+        
 }

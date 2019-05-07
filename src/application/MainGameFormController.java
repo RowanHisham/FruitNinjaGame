@@ -1,8 +1,12 @@
 package application;
 
+import java.util.Timer;
+import java.util.concurrent.Executors;
+
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -17,6 +21,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.PathElement;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -25,7 +30,7 @@ public class MainGameFormController {
 	private Line line;
 	
     @FXML
-    private AnchorPane pn_main;
+    AnchorPane pn_main;
     
     @FXML
     Path path;
@@ -46,27 +51,13 @@ public class MainGameFormController {
     
     @FXML
 	public void initialize() {
-    	 fruitPathAnimation();
-    	 startThread();
+    	image.setVisible(false);
+    	 startThread(); 
+         new NewFruitScheduledTask().run();
     }
-    
-    //TODO: takes imageView as Parameter , randomize animation
-    private void fruitPathAnimation(){
-    	Path path = new Path();
-    	path.getElements().add(new MoveTo(500,900));
-    	path.getElements().add(new CubicCurveTo(200,800, 800, -600, 900, 900));
-    	PathTransition pathTransition = new PathTransition();
-    	pathTransition.setDuration(Duration.millis(3000));
-    	pathTransition.setPath(path);
-    	pathTransition.setNode(image);
-    	pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-    	pathTransition.setCycleCount(Timeline.INDEFINITE);
-    	pathTransition.setAutoReverse(true);
-    	pathTransition.play();
-    }
-    
+   
     private void startThread() {
-    	thread = new intersectionThread();
+    	thread = new IntersectionThread();
         thread.setDaemon(true);
         thread.start();
     }
@@ -76,16 +67,31 @@ public class MainGameFormController {
     	path.toBack();
     	path.getElements().clear();
     	path.toFront();
-    	image.setImage(new Image("/orange.png",true));
-    	path.setStrokeWidth(3);
-    	path.setStroke(Color.ANTIQUEWHITE);
-    	    	
+    	image.setImage(new Image("/orange.png",true));   	    	
     	path.getElements()
             .add(new MoveTo(event.getSceneX(), event.getSceneY()));
     }
 
     @FXML
     void onMouseDragged(MouseEvent event) {
+    	if(path.getElements().size() > 20) {
+    		
+    		MoveTo temp2 = null;
+    		if( path.getElements().get(10).getClass() == MoveTo.class){
+        		System.out.println("Moveto");
+
+        	 temp2 = (MoveTo) path.getElements().get(10);
+    		}else if(path.getElements().get(10).getClass() == LineTo.class) {
+        		System.out.println("Line");
+
+    			LineTo temp = (LineTo) path.getElements().get(10);
+    			temp2 = new MoveTo(temp.getX(),temp.getY());
+    		}
+    		
+        	path.getElements().clear();
+    		path.getElements().add(temp2);
+    		
+    	}
     	path.getElements()
         .add(new LineTo(event.getSceneX(), event.getSceneY()));
 
