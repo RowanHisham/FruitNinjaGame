@@ -1,36 +1,30 @@
 package application;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class IntersectionThread extends Thread{
 		
         @Override
         public void run(){
-        	System.out.println("herre");
             while(!Thread.interrupted()){               
                 try {
                     Thread.sleep(40);
-                    if (isIntersecting()) {                        
-                        
-                    	Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								MainGameFormController.getInstance().image.setImage(new Image("/orangeSplit.png",true));
-							}
-                        });  
-                        
-                    }else {
-                    	Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								//image.setImage(new Image("/orange.png",true));
-								System.out.println("Here");
-							}
-                        });
-                    	
+                    for(Node node: MainGameFormController.getInstance().pn_fruits.getChildren()) {
+                    	if(node.getClass() == ImageView.class) {
+                    		if (isIntersecting((ImageView)node) ) {                        
+
+                    			Platform.runLater(new Runnable() {
+                    				@Override
+                    				public void run() {
+                    					((ImageView) node).setImage(new Image("/orangeSplit.png",true));
+                    				}
+                    			});
+
+                    		}
+                    	}
                     }
                 } catch (InterruptedException ex) {
                 	System.out.println("Interrupted");
@@ -39,9 +33,8 @@ public class IntersectionThread extends Thread{
             }
         }
         
-        boolean isIntersecting() {
-        	return MainGameFormController.getInstance().path.getBoundsInParent().intersects(MainGameFormController.getInstance().image.getBoundsInParent());
-        }
-        
+        boolean isIntersecting(ImageView image) {
+        	return MainGameFormController.getInstance().path.getBoundsInParent().intersects(image.getBoundsInParent());
+        }    
         
 }

@@ -30,7 +30,7 @@ public class MainGameFormController {
 	private Line line;
 	
     @FXML
-    AnchorPane pn_main;
+    AnchorPane pn_main, pn_fruits;
     
     @FXML
     Path path;

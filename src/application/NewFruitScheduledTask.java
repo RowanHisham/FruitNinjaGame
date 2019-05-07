@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.CubicCurveTo;
@@ -46,13 +47,16 @@ public class NewFruitScheduledTask extends TimerTask {
     	pathTransition.setPath(path);
     	pathTransition.setNode(image);
     	pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-    	pathTransition.setCycleCount(Timeline.INDEFINITE);
-    	pathTransition.setAutoReverse(true);
+    	
+    	//TODO: Check on state of fruit if split or not after animation finishes
+    	pathTransition.setOnFinished(event -> {
+           System.out.println("FINISHED");
+        });  
     	
     	Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-		    	MainGameFormController.getInstance().pn_main.getChildren().add(image);
+		    	MainGameFormController.getInstance().pn_fruits.getChildren().add(image);
 			}
         });
     	
