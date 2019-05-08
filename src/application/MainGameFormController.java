@@ -1,5 +1,9 @@
 package application;
 
+import java.sql.Time;
+import java.time.LocalTime;
+import java.util.Map;
+
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,11 +12,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainGameFormController {	
 	@FXML
@@ -31,6 +38,8 @@ public class MainGameFormController {
     ImageView image;
     
     private Thread thread;
+    
+    private LocalTime swordSoundTime = LocalTime.now();  
         
     private static MainGameFormController instance = null;
     public static MainGameFormController getInstance() {
@@ -88,6 +97,7 @@ public class MainGameFormController {
     			temp2 = new MoveTo(temp.getX(),temp.getY());
     		}
     		
+    		playSwordSound();
         	path.getElements().clear();
     		path.getElements().add(temp2);
     		
@@ -106,6 +116,22 @@ public class MainGameFormController {
     	path.getElements().clear();
     	path.toFront();
     	thread.interrupt();
+    }
+    
+    void playSwordSound() {
+    	if( swordSoundTime.plusSeconds(1).isBefore(LocalTime.now())) {
+        MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/sword.mp3").toString()));
+		mediaPlayer.setOnReady(new Runnable() {
+			@Override
+			public void run() {
+				mediaPlayer.stop();
+				mediaPlayer.play();
+			}
+		});
+		mediaPlayer.stop();
+		mediaPlayer.play();
+		swordSoundTime = LocalTime.now();
+    }
     }
 
 }

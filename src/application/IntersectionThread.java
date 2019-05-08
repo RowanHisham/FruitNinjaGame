@@ -8,6 +8,8 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 public class IntersectionThread extends Thread{
@@ -36,11 +38,23 @@ public class IntersectionThread extends Thread{
                     					if(random%2 == 0) {
                     					    ((ImageView) node).setImage(new Image("/pomSplit.png",true));
                     						splash = new ImageView(new Image("/colorsplash1.png",true));
+                    						
                     					}else {
                     						((ImageView) node).setImage(new Image("/orangeSplit.png",true));
                         					 splash = new ImageView(new Image("/colorsplash2.png",true));
                     					}
                     				
+                    					MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/fruit" + new Random().nextInt(3)+ ".mp3").toString()));
+                    					mediaPlayer.setOnReady(new Runnable() {
+                    						@Override
+                    						public void run() {
+                    							mediaPlayer.stop();
+                    							mediaPlayer.play();
+                    						}
+                    					});
+                    					mediaPlayer.stop();
+                    					mediaPlayer.play();
+                    					
                     					Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
                     					splash.setX(boundsInScene.getMinX());
                     					splash.setY(boundsInScene.getMinY());
