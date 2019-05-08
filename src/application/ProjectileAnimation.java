@@ -2,6 +2,8 @@ package application;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
@@ -13,6 +15,8 @@ public class ProjectileAnimation {
     private double duration;
     private double t = 0;
     private double g;
+
+    private EventHandler<ActionEvent> onFinished;
 
     public ProjectileAnimation(Node node) {
         this(node, 1196, 747);
@@ -65,9 +69,15 @@ public class ProjectileAnimation {
         double dy = initialVy * t - 0.5 * g * t * t;
         node.setTranslateY(-dy);
         if (t >= duration) {
-            stop();
             node.setTranslateY(maxY);
+            stop();
             t = 0;
+            if(onFinished != null)
+                onFinished.handle(new ActionEvent(node, null));
         }
+    }
+
+    public void setOnFinished(EventHandler<ActionEvent> onFinished) {
+        this.onFinished = onFinished;
     }
 }
