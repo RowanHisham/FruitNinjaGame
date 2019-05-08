@@ -4,10 +4,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.CubicCurveTo;
@@ -22,7 +21,8 @@ public class NewFruitScheduledTask extends TimerTask {
 	
     public void run() {
     	int delay = (new Random().nextInt(5)) * 300;
-        timer.schedule(new NewFruitScheduledTask(), delay);
+    	//TODO add stop condition
+    	timer.schedule(new NewFruitScheduledTask(), delay);
     	fruitPathAnimation();
     }
    
@@ -46,6 +46,7 @@ public class NewFruitScheduledTask extends TimerTask {
     	pathTransition.setDuration(Duration.millis(3000));
     	pathTransition.setPath(path);
     	pathTransition.setNode(image);
+    	pathTransition.setInterpolator(Interpolator.EASE_BOTH);
     	pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
     	
     	//TODO: Check on state of fruit if split or not after animation finishes

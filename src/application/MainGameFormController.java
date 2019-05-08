@@ -1,33 +1,25 @@
 package application;
 
-import java.util.Timer;
-import java.util.concurrent.Executors;
-
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
+import com.jfoenix.controls.JFXButton;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.PathElement;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
+import javafx.stage.Stage;
 
 public class MainGameFormController {	
 	@FXML
 	private Line line;
+	
+	 @FXML
+	 JFXButton btn_mainmenu;
 	
     @FXML
     AnchorPane pn_main, pn_fruits;
@@ -39,7 +31,7 @@ public class MainGameFormController {
     ImageView image;
     
     private Thread thread;
-    
+        
     private static MainGameFormController instance = null;
     public static MainGameFormController getInstance() {
         return instance;
@@ -60,6 +52,14 @@ public class MainGameFormController {
     	thread = new IntersectionThread();
         thread.setDaemon(true);
         thread.start();
+    }
+    
+    @FXML
+    void onButtonAction(ActionEvent event) {
+    	if(event.getSource() == btn_mainmenu) {
+    		Stage window = (Stage)(((Node) event.getSource()).getScene().getWindow());
+    		window.close();
+    	}
     }
     
     @FXML

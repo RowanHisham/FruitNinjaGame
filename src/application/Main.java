@@ -13,7 +13,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			//AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("MainGameForm.fxml"));
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainGameForm.fxml"));
 			AnchorPane root = (AnchorPane)loader.load();
 			MainGameFormController.setInstance(loader.getController());
