@@ -36,7 +36,7 @@ public class ProjectileAnimation {
         node.setLayoutY(maxY);
         double y = Math.random()*maxY*0.2+maxY*0.75;
         initialVy = Math.sqrt(2*g*y);
-        duration = Duration.seconds(2 * Math.abs(initialVy / g)).toSeconds();
+        duration = 2 * Math.abs(initialVy / g);
         double layoutX = node.getLayoutX();
         int sign;
         if(layoutX < maxX/2)
@@ -57,10 +57,6 @@ public class ProjectileAnimation {
 
     public void stop() {
         timeline.stop();
-    }
-
-    public void setRate(double rate) {
-        timeline.setRate(rate);
     }
 
     private void move() {
