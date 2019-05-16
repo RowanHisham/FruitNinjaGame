@@ -1,19 +1,17 @@
 package application;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.util.Duration;
 
 public class ProjectileAnimation {
     private Node node;
-    private Timeline timeline;
+    private AnimationTimer timer;
     private double maxX, maxY;
     private double initialVx, initialVy;
     private double duration;
-    private double t = 0;
+    private long startTime = 0;
     private double g;
 
     private EventHandler<ActionEvent> onFinished;
@@ -26,9 +24,12 @@ public class ProjectileAnimation {
         this.maxX = parentWidth;
         this.maxY = parentHeight;
         this.g = parentHeight*1.5;
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(16), (ActionEvent) -> move());
-        timeline = new Timeline(keyFrame);
-        timeline.setCycleCount(Timeline.INDEFINITE);
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                move(now);
+            }
+        };
         doMafs();
     }
     private void doMafs() {
@@ -51,23 +52,23 @@ public class ProjectileAnimation {
     }
 
     public void play() {
-        timeline.play();
+        timer.start();
+        startTime = System.nanoTime();
     }
 
 
     public void stop() {
-        timeline.stop();
+        timer.stop();
     }
 
-    private void move() {
-        t += timeline.getCycleDuration().toSeconds();
+    private void move(long now) {
+        double t = (now - startTime)/1000000000.0;
         node.setTranslateX(-initialVx * t);
         double dy = initialVy * t - 0.5 * g * t * t;
         node.setTranslateY(-dy);
         if (t >= duration) {
             node.setTranslateY(maxY);
             stop();
-            t = 0;
             if(onFinished != null)
                 onFinished.handle(new ActionEvent(node, null));
         }
