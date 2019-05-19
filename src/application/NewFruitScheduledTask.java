@@ -9,6 +9,7 @@ import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -16,13 +17,16 @@ import javafx.util.Duration;
 
 public class NewFruitScheduledTask extends TimerTask {
 	static Timer timer = new Timer();
+	private AnchorPane pn_fruits;
 	
-	NewFruitScheduledTask(){}
+	NewFruitScheduledTask(AnchorPane pn_fruits){
+		this.pn_fruits = pn_fruits;
+	}
 	
     public void run() {
     	int delay = (new Random().nextInt(5)) * 300;
     	//TODO add stop condition
-    	timer.schedule(new NewFruitScheduledTask(), delay);
+    	timer.schedule(new NewFruitScheduledTask(pn_fruits), delay);
     	fruitPathAnimation();
     }
    
@@ -39,28 +43,15 @@ public class NewFruitScheduledTask extends TimerTask {
     		image.setImage(new Image("/pom.png",true));
     	}
     	
-    	Path path = new Path();
-    	path.getElements().add(new MoveTo(500,900));
-    	path.getElements().add(new CubicCurveTo(200,800, 800, -600, 900, 900));
-    	PathTransition pathTransition = new PathTransition();
-    	pathTransition.setDuration(Duration.millis(3000));
-    	pathTransition.setPath(path);
-    	pathTransition.setNode(image);
-    	pathTransition.setInterpolator(Interpolator.EASE_BOTH);
-    	pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-    	
-    	//TODO: Check on state of fruit if split or not after animation finishes
-    	pathTransition.setOnFinished(event -> {
-           System.out.println("FINISHED");
-        });  
-    	
+    	ProjectileAnimation animation = new ProjectileAnimation(image);
+    	animation.play();
+
     	Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-		    	MainGameFormController.getInstance().pn_fruits.getChildren().add(image);
+		    	pn_fruits.getChildren().add(image);
 			}
         });
-    	
-    	pathTransition.play();
-    }
+    
+     }
 }

@@ -1,8 +1,6 @@
 package application;
 
-import java.sql.Time;
 import java.time.LocalTime;
-import java.util.Map;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -19,7 +17,6 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class MainGameFormController {	
 	@FXML
@@ -40,25 +37,16 @@ public class MainGameFormController {
     private Thread thread;
     
     private LocalTime swordSoundTime = LocalTime.now();  
-        
-    private static MainGameFormController instance = null;
-    public static MainGameFormController getInstance() {
-        return instance;
-    }
-    
-    public static void setInstance(MainGameFormController instance1) {
-        instance = instance1;
-    }
     
     @FXML
 	public void initialize() {
     	image.setVisible(false);
     	 startThread(); 
-         new NewFruitScheduledTask().run();
+         new NewFruitScheduledTask(pn_fruits).run();
     }
    
     private void startThread() {
-    	thread = new IntersectionThread();
+    	thread = new IntersectionThread(pn_fruits,pn_main, path);
         thread.setDaemon(true);
         thread.start();
     }
@@ -84,24 +72,18 @@ public class MainGameFormController {
     @FXML
     void onMouseDragged(MouseEvent event) {
     	if(path.getElements().size() > 20) {
-    		
     		MoveTo temp2 = null;
     		if( path.getElements().get(10).getClass() == MoveTo.class){
-        		System.out.println("Moveto");
-
         	 temp2 = (MoveTo) path.getElements().get(10);
     		}else if(path.getElements().get(10).getClass() == LineTo.class) {
-        		System.out.println("Line");
-
     			LineTo temp = (LineTo) path.getElements().get(10);
     			temp2 = new MoveTo(temp.getX(),temp.getY());
     		}
-    		
     		playSwordSound();
         	path.getElements().clear();
-    		path.getElements().add(temp2);
-    		
+    		path.getElements().add(temp2);	
     	}
+    	
     	path.getElements()
         .add(new LineTo(event.getSceneX(), event.getSceneY()));
 
@@ -133,5 +115,4 @@ public class MainGameFormController {
 		swordSoundTime = LocalTime.now();
     }
     }
-
 }

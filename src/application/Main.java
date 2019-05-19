@@ -13,9 +13,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainGameForm.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuForm.fxml"));
 			AnchorPane root = (AnchorPane)loader.load();
-			MainGameFormController.setInstance(loader.getController());
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();

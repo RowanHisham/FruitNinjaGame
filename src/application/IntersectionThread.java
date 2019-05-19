@@ -8,11 +8,20 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 public class IntersectionThread extends Thread{
+	private AnchorPane pn_fruits, pn_main;
+	private Path path;
+	IntersectionThread(AnchorPane pn_fruits,AnchorPane pn_main, Path path){
+		this.pn_fruits = pn_fruits;
+		this.pn_main = pn_main;
+		this.path = path;
+	}
 		
         @Override
         public void run(){
@@ -20,10 +29,10 @@ public class IntersectionThread extends Thread{
                 try {
                 	//TODO: decrease sleep duration
                     Thread.sleep(200);
-                    if(MainGameFormController.getInstance().pn_fruits.getChildren() == null)
+                    if(pn_fruits.getChildren() == null)
                     	return;
                     
-                    for(Node node: MainGameFormController.getInstance().pn_fruits.getChildren()) {
+                    for(Node node: pn_fruits.getChildren()) {
                     	if(node.getClass() == ImageView.class) {
                     		if (isIntersecting((ImageView)node) ) {                        
 
@@ -65,11 +74,8 @@ public class IntersectionThread extends Thread{
                     			        ft.setToValue(0);
                     			        ft.play();
                     			        
-                    			        MainGameFormController.getInstance().pn_main.getChildren().add(splash);
-                    					MainGameFormController.getInstance().pn_fruits.toFront();
-                    					MainGameFormController.getInstance().path.toFront();
-                    					MainGameFormController.getInstance().btn_mainmenu.toFront();
-                    					
+                    			       pn_main.getChildren().add(splash);
+                    			       pn_fruits.toFront();
                     				}
                     			});
 
@@ -85,7 +91,7 @@ public class IntersectionThread extends Thread{
         
         //TODO: check if node is already split and return false
         boolean isIntersecting(ImageView image) {
-        	return MainGameFormController.getInstance().path.getBoundsInParent().intersects(image.getBoundsInParent());
+        	return path.getBoundsInParent().intersects(image.getBoundsInParent());
         }    
         
 }
