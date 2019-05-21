@@ -1,13 +1,30 @@
 package game.strategies;
 
+import commands.Controller;
+import commands.EndGameCommand;
+
 public class LivesStrategy implements GameStrategy {
+    private int lives = 3 ;
+    private Controller game;
+    private EndGameCommand endGame;
+            
     @Override
     public void initialize() {
-        //TODO initialize lives strategy
+        LivesStrategy livesStrategy = new LivesStrategy();
+        game = new Controller(livesStrategy);
+        endGame = new EndGameCommand();
     }
-
+    
     public void decrementLives() {
-        //TODO decrement lives
-        // This will be called when a dangerous bomb is sliced
+        if(lives == 0){
+             game.executeCommand(endGame);
+        }
+        else{
+            lives--;
+        }
+    }
+    
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 }
