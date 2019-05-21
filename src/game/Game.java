@@ -1,5 +1,6 @@
 package game;
 
+import commands.Controller;
 import game.strategies.GameStrategy;
 
 public class Game {
@@ -11,11 +12,13 @@ public class Game {
     private GameStrategy strategy;
     private GameState state;
     private int score;
+    private Controller controller;
 
     public Game(GameStrategy strategy, GameState state) {
         this.strategy = strategy;
         this.state = state;
         this.score = 0;
+        this.controller = new Controller(strategy);
         currentGame = this;
     }
 
@@ -37,5 +40,8 @@ public class Game {
     }
     public void setScore(int score) {
         this.score = score;
+    }
+    public Controller getController() {
+        return controller;
     }
 }
