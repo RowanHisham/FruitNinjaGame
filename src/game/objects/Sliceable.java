@@ -25,7 +25,19 @@ public abstract class Sliceable {
     public abstract void slice();
 
     public static Sliceable newSliceable(SliceableType type) {
-        //TODO factory here
+        if (type== SliceableType.APPLE)
+            return new Fruit(Fruit.getAppleImages(), 10);
+        else if (type== SliceableType.ORANGE)
+            return new Fruit(Fruit.getOrangeImages(), 10);
+        else if (type== SliceableType.KIWI)
+            return new Fruit(Fruit.getKiwiImages(), 10);
+        else if (type== SliceableType.DANGEROUS_BOMB)
+            return new DangerousBomb();
+        else if (type== SliceableType.FATAL_BOMB)
+            return new FatalBomb();
+        else if (type==SliceableType.POM)
+            return new Fruit(Fruit.getPOMImages(), 10);
+
         return null;
     }
 }

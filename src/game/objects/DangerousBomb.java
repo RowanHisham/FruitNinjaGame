@@ -1,5 +1,7 @@
 package game.objects;
 
+import commands.LoseLifeCommand;
+import game.Game;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
@@ -10,7 +12,8 @@ public class DangerousBomb extends Sliceable {
     private static final List<Image> IMAGES = new ArrayList<>();
     private static final List<Media> SOUNDS = new ArrayList<>();
     static {
-        //TODO load dangerous bomb stuff
+       // IMAGES.add(new Image("/"));
+       // SOUNDS.add(new Media("/"));
     }
 
     DangerousBomb() {
@@ -20,6 +23,6 @@ public class DangerousBomb extends Sliceable {
     @Override
     public void slice() {
         //TODO on dangerous bomb slice
-        // This should execute a command that decrements lives
+        Game.getCurrentGame().getController().executeCommand(new LoseLifeCommand());
     }
 }

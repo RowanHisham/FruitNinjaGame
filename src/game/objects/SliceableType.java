@@ -5,5 +5,7 @@ public enum SliceableType {
     ORANGE,
     KIWI,
     DANGEROUS_BOMB,
-    FATAL_BOMB
+    FATAL_BOMB,
+    POM
+
 }
