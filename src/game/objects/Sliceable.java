@@ -37,6 +37,16 @@ public abstract class Sliceable {
             return new FatalBomb();
         else if (type==SliceableType.POM)
             return new Fruit(Fruit.getPOMImages(), 10);
+        else if (type==SliceableType.Pear)
+            return new Fruit(Fruit.getPearImages(), 10);
+        else if (type==SliceableType.Lemon)
+            return new Fruit(Fruit.getLemonImages(), 10);
+        else if (type==SliceableType.Special1)
+            return new Fruit(Fruit.getSpecial1_IMAGES(), 30);
+        else if (type==SliceableType.Special2)
+            return new Fruit(Fruit.getSpecial2_IMAGES(), 30);
+
+
 
         return null;
     }

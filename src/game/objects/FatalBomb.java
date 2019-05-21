@@ -13,8 +13,8 @@ public class FatalBomb extends Sliceable {
     private static final List<Image> IMAGES = new ArrayList<>();
     private static final List<Media> SOUNDS = new ArrayList<>();
     static {
-        //IMAGES.add(new Image("/"));
-      //  Media.add(new Media("/"));
+        IMAGES.add(new Image("/bombFatal"));
+       SOUNDS.add(new Media("/bomb.mp3"));
     }
 
     FatalBomb() {
