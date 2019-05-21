@@ -6,6 +6,10 @@ public enum SliceableType {
     KIWI,
     DANGEROUS_BOMB,
     FATAL_BOMB,
-    POM
+    POM,
+    Lemon,
+    Pear,
+    Special1,
+    Special2
 
 }
