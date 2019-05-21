@@ -3,8 +3,8 @@ package game;
 import game.strategies.GameStrategy;
 
 public class Game {
-    private Game currentGame;
-    public Game getCurrentGame() {
+    private static Game currentGame;
+    public static Game getCurrentGame() {
         return currentGame;
     }
 
