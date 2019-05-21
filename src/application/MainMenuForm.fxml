@@ -10,24 +10,24 @@
    <children>
       <ImageView fitHeight="802.0" fitWidth="1195.0" layoutX="-2.0" layoutY="-35.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../bin/mainmenu.png" />
+            <Image url="/mainmenu.png" />
          </image>
       </ImageView>
       <AnchorPane fx:id="pn_labels" prefHeight="746.0" prefWidth="1192.0">
          <children>
             <ImageView fx:id="img_quitLabel" fitHeight="209.0" fitWidth="211.0" layoutX="823.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../bin/quit.png" />
+                  <Image url="/quit.png" />
                </image>
             </ImageView>
             <ImageView fx:id="img_classicLabel" fitHeight="251.0" fitWidth="248.0" layoutX="175.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../bin/classic.png" />
+                  <Image url="/classic.png" />
                </image>
             </ImageView>
             <ImageView fx:id="img_arcadeLabel" fitHeight="276.0" fitWidth="290.0" layoutX="505.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../bin/arcade.png" />
+                  <Image url="/arcade.png" />
                </image>
             </ImageView>
          </children>
@@ -41,17 +41,17 @@
             </Path>
             <ImageView fx:id="img_arcade" fitHeight="164.0" fitWidth="134.0" layoutX="581.0" layoutY="338.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../bin/orange.png" />
+                  <Image url="/orange.png" />
                </image>
             </ImageView>
             <ImageView fx:id="img_classic" fitHeight="143.0" fitWidth="139.0" layoutX="234.0" layoutY="435.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../bin/apple.png" />
+                  <Image url="/apple.png" />
                </image>
             </ImageView>
             <ImageView fx:id="img_quit" fitHeight="106.0" fitWidth="108.0" layoutX="878.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../bin/bombFatal.png" />
+                  <Image url="/bombFatal.png" />
                </image>
             </ImageView>
          </children>

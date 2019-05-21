@@ -1,11 +1,16 @@
 package application;
 
+import java.io.IOException;
 import java.time.LocalTime;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,16 +28,19 @@ public class MainGameFormController {
 	private Line line;
 	
 	 @FXML
-	 JFXButton btn_mainmenu;
+	 JFXButton btn_mainmenu, btn_mainmenu1;
 	
     @FXML
-    AnchorPane pn_main, pn_fruits;
+    AnchorPane pn_main, pn_fruits, pn_gameOver;
     
     @FXML
     Path path;
     
     @FXML 
-    ImageView image;
+    ImageView img_lives;
+    
+    @FXML
+    Label lbl_score,lbl_highScore, lbl_time, lbl_gameOverScore, lbl_gameOverBestScore;
     
     private Thread thread;
     
@@ -40,7 +48,8 @@ public class MainGameFormController {
     
     @FXML
 	public void initialize() {
-    	image.setVisible(false);
+    	updateLives(3);
+    	pn_gameOver.setVisible(false);
     	 startThread(); 
          new NewFruitScheduledTask(pn_fruits).run();
     }
@@ -52,10 +61,13 @@ public class MainGameFormController {
     }
     
     @FXML
-    void onButtonAction(ActionEvent event) {
-    	if(event.getSource() == btn_mainmenu) {
-    		Stage window = (Stage)(((Node) event.getSource()).getScene().getWindow());
-    		window.close();
+    void onButtonAction(ActionEvent event) throws IOException {
+    	if(event.getSource() == btn_mainmenu || event.getSource() == btn_mainmenu1) {
+				Parent root = (AnchorPane)FXMLLoader.load(getClass().getResource("MainMenuForm.fxml"));
+				Scene MainFormScene = new Scene(root);
+	    		Stage window = (Stage)(((Node) event.getSource()).getScene().getWindow());
+    			window.setScene(MainFormScene);
+    			window.show();
     	}
     }
     
@@ -64,7 +76,6 @@ public class MainGameFormController {
     	path.toBack();
     	path.getElements().clear();
     	path.toFront();
-    	image.setImage(new Image("/orange.png",true));   	    	
     	path.getElements()
             .add(new MoveTo(event.getSceneX(), event.getSceneY()));
     }
@@ -114,5 +125,17 @@ public class MainGameFormController {
 		mediaPlayer.play();
 		swordSoundTime = LocalTime.now();
     }
+    }
+    
+    void gameOver() {
+    	pn_gameOver.toFront();
+    	pn_gameOver.setVisible(true);
+    }
+    
+    void updateLives(int live) {
+    	if(live>3 || live<0)
+    		return;
+    	
+    	img_lives.setImage(new Image("/lives"+live+".png",true));
     }
 }
