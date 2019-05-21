@@ -55,10 +55,27 @@ public class MainMenuFormController {
     private LocalTime swordSoundTime = LocalTime.now();
     
     private boolean gameSelected = false;
+    
+    private MediaPlayer mediaPlayer;
 
     @FXML
 	public void initialize() {
     	
+    	mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/mainTheme.mp3").toString()));
+    	mediaPlayer.setOnEndOfMedia(new Runnable() {
+			public void run() {
+				mediaPlayer.seek(Duration.ZERO);
+			}
+		});
+		mediaPlayer.setOnReady(new Runnable() {
+			@Override
+			public void run() {
+				mediaPlayer.stop();
+				mediaPlayer.play();
+			}
+		});
+		
+		
     	for(Node node : pn_labels.getChildren())
     		rotateImage((ImageView)node,20,-1);
     	
@@ -190,6 +207,7 @@ public class MainMenuFormController {
         trans.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
+            	mediaPlayer.stop();
             	if(image.equals(img_classic)) {
             		Parent root;
 					try {
