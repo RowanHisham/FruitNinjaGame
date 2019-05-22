@@ -157,6 +157,8 @@ public class MainGameFormController {
 		pn_gameOver.setVisible(true);
 		TIMER.purge();
 		pn_gameOver.toFront();
+		lbl_gameOverScore.setText("Score: " + Game.getCurrentGame().getScore());
+		lbl_gameOverBestScore.setText("High Score: " + Game.getCurrentGame().getHighScore());
 	}
 
 	public void scheduleSliceable(SliceableTask task, long delay) {

@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Path?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pn_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" prefHeight="744.0" prefWidth="1191.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainGameFormController">
+<AnchorPane fx:id="pn_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" prefHeight="744.0" prefWidth="1191.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainGameFormController">
    <children>
       <ImageView fitHeight="802.0" fitWidth="1195.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -70,7 +70,7 @@
                   <DropShadow color="#0000007c" height="5.82" radius="3.9299999999999997" width="11.9" />
                </effect>
             </Label>
-            <Label fx:id="lbl_gameOverBestScore" layoutX="382.0" layoutY="493.0" prefHeight="69.0" prefWidth="639.0" text="Best Score: 0" textFill="#ffce36">
+            <Label fx:id="lbl_gameOverBestScore" layoutX="382.0" layoutY="493.0" prefHeight="69.0" prefWidth="639.0" text="High Score: 0" textFill="#ffce36">
                <font>
                   <Font name="Gang of Three" size="60.0" />
                </font>
@@ -78,7 +78,7 @@
                   <DropShadow color="#0000007c" height="5.82" radius="3.9299999999999997" width="11.9" />
                </effect>
             </Label>
-            <JFXButton fx:id="btn_mainmenu1" layoutX="449.0" layoutY="559.0" onAction="#onButtonAction" prefHeight="52.0" prefWidth="274.0" style="-fx-background-color: ffcc4d;" text="Return To Main Menu">
+            <JFXButton fx:id="btn_mainmenu1" layoutX="449.0" layoutY="580.0" onAction="#onButtonAction" prefHeight="52.0" prefWidth="274.0" style="-fx-background-color: ffcc4d;" text="Return To Main Menu">
                <font>
                   <Font name="Gang of Three" size="22.0" />
                </font>

@@ -17,7 +17,7 @@ public class TimeStrategy implements GameStrategy {
     @Override
     public void initialize() {
         Controller.execute();
-        gameTime = 3*60;
+        gameTime = 90;
         Controller.executeCommand(new UpdateTimeCommand(gameTime));
         timer = new Timer(true);
         startTimer();
