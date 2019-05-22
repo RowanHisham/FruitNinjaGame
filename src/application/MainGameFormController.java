@@ -55,7 +55,6 @@ public class MainGameFormController {
 		pn_gameOver.setVisible(false);
 		startThread();
 		lbl_highScore.setText(String.valueOf(Game.getCurrentGame().getHighScore()));
-		new SliceableTask(pn_fruits).run();
 	}
 
 	private void startThread() {
@@ -129,6 +128,10 @@ public class MainGameFormController {
 			mediaPlayer.play();
 			swordSoundTime = LocalTime.now();
 		}
+	}
+
+	AnchorPane getFruitsPane() {
+		return pn_fruits;
 	}
 
 	public void gameOver() {

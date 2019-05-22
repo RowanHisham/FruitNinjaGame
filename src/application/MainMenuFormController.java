@@ -15,7 +15,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -207,13 +206,13 @@ public class MainMenuFormController {
             	mediaPlayer.stop();
             	if(image.equals(img_classic)) {
             		Controller.setCommand(new InitLivesCommand((Stage)img_classic.getScene().getWindow()));
-            		new Game(new LivesStrategy(), null);
+            		new Game(new LivesStrategy());
             	}else if( image.equals(img_quit)) {
             		Stage window = (Stage)(img_quit.getScene().getWindow());
             		window.close();
             	}else if(image.equals(img_arcade)) {
 					Controller.setCommand(new InitTimeCommand((Stage)img_arcade.getScene().getWindow()));
-					new Game(new TimeStrategy(), null);
+					new Game(new TimeStrategy());
             	}
             }
         });

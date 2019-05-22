@@ -22,7 +22,6 @@ public class DangerousBomb extends Sliceable {
 
     @Override
     public void slice() {
-        //TODO on dangerous bomb slice
         Controller.executeCommand(new LoseLifeCommand());
     }
 }

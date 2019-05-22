@@ -4,6 +4,7 @@ import commands.Controller;
 import commands.SliceCommand;
 import commands.UpdateScoreCommand;
 import game.Game;
+import game.objects.Fruit;
 import game.objects.Sliceable;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -27,8 +28,8 @@ public class IntersectionThread extends Thread{
 	private LocalTime comboTime = LocalTime.now();
 	private boolean firstComboSlice = true;
 	private int combo = 0;
-	
-	
+
+
 	IntersectionThread(AnchorPane pn_fruits,AnchorPane pn_main, Path path){
 		this.pn_fruits = pn_fruits;
 		this.pn_main = pn_main;
@@ -52,8 +53,22 @@ public class IntersectionThread extends Thread{
 							public void run() {
                                 Sliceable sliceable = (Sliceable) node.getUserData();
                                 Controller.executeCommand(new SliceCommand(sliceable));
-                                ((ImageView)node).setImage(sliceable.getImages().get(1));
-								ImageView splash = new ImageView(sliceable.getImages().get(2));
+                                if(sliceable instanceof Fruit) {
+                                    ((ImageView) node).setImage(sliceable.getImages().get(1));
+                                    ImageView splash = new ImageView(sliceable.getImages().get(2));
+                                    Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
+                                    splash.setX(boundsInScene.getMinX());
+                                    splash.setY(boundsInScene.getMinY());
+                                    splash.setOpacity(0.5);
+                                    splash.setRotate(new Random().nextInt(360));
+                                    FadeTransition ft = new FadeTransition(Duration.millis(3000), splash);
+                                    ft.setToValue(0);
+                                    ft.play();
+                                    pn_main.getChildren().add(splash);
+                                }
+                                else {
+                                    node.setVisible(false);
+                                }
 								MediaPlayer mediaPlayer = new MediaPlayer(sliceable.randomSound());
 								mediaPlayer.setOnReady(new Runnable() {
 									@Override
@@ -64,19 +79,7 @@ public class IntersectionThread extends Thread{
 								});
 								mediaPlayer.stop();
 								mediaPlayer.play();
-
-								Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
-								splash.setX(boundsInScene.getMinX());
-								splash.setY(boundsInScene.getMinY());
-								splash.setOpacity(0.5);
-								splash.setRotate(new Random().nextInt(360));
-
-								FadeTransition ft = new FadeTransition(Duration.millis(3000), splash);
-								ft.setToValue(0);
-								ft.play();
-
-								pn_main.getChildren().add(splash);
-								pn_fruits.toFront();
+                                pn_fruits.toFront();
 							}
 						});
 
@@ -97,18 +100,18 @@ public class IntersectionThread extends Thread{
 				firstComboSlice = false;
 			}else if(comboTime.plusNanos(300000000).isAfter(LocalTime.now()) ){
 				combo++;
-				updateCombo(node);			
+				updateCombo(node);
 				System.out.println("COMBO " + combo);
 			}else {
 				firstComboSlice = true;
-				combo = 0;	
+				combo = 0;
 			}
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	void updateCombo(Node node) {
 		if(combo > 1) {
 			int temp = combo;
@@ -127,7 +130,7 @@ public class IntersectionThread extends Thread{
 			FadeTransition ft = new FadeTransition(Duration.millis(4000), comboLabel);
 			ft.setToValue(0);
 			ft.play();
-			
+
 			MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/combo.mp3").toString()));
 			mediaPlayer.setOnReady(new Runnable() {
 				@Override
@@ -136,12 +139,12 @@ public class IntersectionThread extends Thread{
 					mediaPlayer.play();
 				}
 			});
-			
+
 			pn_main.getChildren().add(comboLabel);
 			System.out.println("COMBO TIME'S UP");
 				}
 			});
-			
+
 		}	}
 
 }

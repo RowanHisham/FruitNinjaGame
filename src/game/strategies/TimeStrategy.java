@@ -3,6 +3,8 @@ package game.strategies;
 import commands.Controller;
 import commands.EndGameCommand;
 import commands.UpdateTimeCommand;
+import game.Game;
+import game.gamestate.TimeDispenser;
 import javafx.application.Platform;
 
 import java.util.Timer;
@@ -15,10 +17,11 @@ public class TimeStrategy implements GameStrategy {
     @Override
     public void initialize() {
         Controller.execute();
-        gameTime = 10;
+        gameTime = 3*60;
         Controller.executeCommand(new UpdateTimeCommand(gameTime));
         timer = new Timer(true);
         startTimer();
+        Game.getCurrentGame().setState(new TimeDispenser());
     }
 
     private void startTimer(){

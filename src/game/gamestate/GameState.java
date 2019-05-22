@@ -1,8 +1,36 @@
 package game.gamestate;
 
-import game.Game;
+import commands.Controller;
+import commands.DispenseCommand;
+
+import java.util.Random;
 
 public abstract class GameState {
-    private Game game;
+    static Random random = new Random();
+    int delay = 0;
 
+    public GameState() {
+        scheduler.start();
+    }
+
+    Thread scheduler = new Thread(() -> {
+        while(!Thread.interrupted()) {
+            Controller.executeCommand(nextDispense());
+            try {
+                Thread.sleep(delay);
+                delay = 0;
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+    });
+    {
+        scheduler.setDaemon(true);
+    }
+
+    public void stop() {
+        scheduler.interrupt();
+    }
+
+    abstract DispenseCommand nextDispense();
 }

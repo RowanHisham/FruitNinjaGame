@@ -9,6 +9,7 @@ import java.io.IOException;
 public class EndGameCommand implements Command {
     @Override
     public void execute() {
+        Game.getCurrentGame().getState().stop();
         MainGameFormController.getInstance().gameOver();
         int highScore = Game.getCurrentGame().getHighScore();
         String fileName = Game.getCurrentGame().getStrategy().toString() + "_high_score";

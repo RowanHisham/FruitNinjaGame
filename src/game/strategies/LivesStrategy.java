@@ -3,6 +3,8 @@ package game.strategies;
 
 import commands.Controller;
 import commands.EndGameCommand;
+import game.Game;
+import game.gamestate.LivesDispenser;
 
 public class LivesStrategy implements GameStrategy {
     private int lives = 3 ;
@@ -10,6 +12,7 @@ public class LivesStrategy implements GameStrategy {
     @Override
     public void initialize() {
         Controller.execute();
+        Game.getCurrentGame().setState(new LivesDispenser());
     }
 
     public void decrementLives() {

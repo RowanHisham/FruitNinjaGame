@@ -18,9 +18,8 @@ public class Game {
     private GameStrategy strategy;
 
 
-    public Game(GameStrategy strategy, GameState state) {
+    public Game(GameStrategy strategy) {
         this.strategy = strategy;
-        this.state = state;
         this.score = 0;
         String fileName = strategy.toString() + "_high_score";
         try {
