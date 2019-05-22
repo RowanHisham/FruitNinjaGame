@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
@@ -126,6 +127,16 @@ public class IntersectionThread extends Thread{
 			FadeTransition ft = new FadeTransition(Duration.millis(4000), comboLabel);
 			ft.setToValue(0);
 			ft.play();
+			
+			MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/combo.mp3").toString()));
+			mediaPlayer.setOnReady(new Runnable() {
+				@Override
+				public void run() {
+					mediaPlayer.stop();
+					mediaPlayer.play();
+				}
+			});
+			
 			pn_main.getChildren().add(comboLabel);
 			System.out.println("COMBO TIME'S UP");
 				}
