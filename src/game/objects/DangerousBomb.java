@@ -13,7 +13,7 @@ public class DangerousBomb extends Sliceable {
     private static final List<Media> SOUNDS = new ArrayList<>();
     static {
         IMAGES.add(new Image("/bombTime"));
-        SOUNDS.add(new Media("/bomb.mp3"));
+        SOUNDS.add(new Media(DangerousBomb.class.getResource("/bomb.mp3").toString()));
     }
 
     DangerousBomb() {
