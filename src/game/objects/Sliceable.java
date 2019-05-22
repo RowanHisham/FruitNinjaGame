@@ -5,6 +5,7 @@ import javafx.scene.media.Media;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public abstract class Sliceable {
     private List<Image> images;
@@ -45,9 +46,12 @@ public abstract class Sliceable {
             return new Fruit(Fruit.getSpecial1Images(), 30);
         else if (type==SliceableType.SPECIAL_2)
             return new Fruit(Fruit.getSpecial2Images(), 30);
-
-
-
         return null;
+    }
+
+    public Media randomSound() {
+        if(sounds.size()==1)
+            return sounds.get(0);
+        return sounds.get(new Random().nextInt(sounds.size()));
     }
 }
