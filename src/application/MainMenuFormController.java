@@ -4,6 +4,7 @@ import commands.Controller;
 import commands.InitLivesCommand;
 import commands.InitTimeCommand;
 import game.Game;
+import game.objects.Fruit;
 import game.objects.Sliceable;
 import game.objects.SliceableType;
 import game.strategies.LivesStrategy;
@@ -62,7 +63,7 @@ public class MainMenuFormController {
 	public void initialize() {
     	img_classic.setUserData(Sliceable.newSliceable(SliceableType.APPLE));
     	img_arcade.setUserData(Sliceable.newSliceable(SliceableType.ORANGE));
-//    	img_quit.setUserData(Sliceable.newSliceable(SliceableType.FATAL_BOMB));
+    	img_quit.setUserData(Sliceable.newSliceable(SliceableType.FATAL_BOMB));
 
     	mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/mainTheme.mp3").toString()));
     	mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -157,11 +158,10 @@ public class MainMenuFormController {
         		if (isIntersecting((ImageView)node) ) {                        
         					
         					int random = new Random().nextInt(3);
+        					if( ((Sliceable)node.getUserData()) instanceof Fruit ) {
         					((ImageView) node).setImage(((Sliceable)node.getUserData()).getImages().get(1));
         					ImageView splash = new ImageView(((Sliceable)node.getUserData()).getImages().get(2));
-        					
-        					playSplashSound();
-        					
+        					        					
         					Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
         					splash.setX(boundsInScene.getMinX());
         					splash.setY(boundsInScene.getMinY());
@@ -171,10 +171,11 @@ public class MainMenuFormController {
         					FadeTransition ft = new FadeTransition(Duration.millis(3000), splash);
         					ft.setToValue(0);
         					ft.play();
-        					animateFruit((ImageView)node);
-        					((Sliceable)node.getUserData()).getImages().get(2);
         					pn_main.getChildren().add(splash);
         					pn_fruits.toFront();
+        					}
+        					playSplashSound(node);
+        					animateFruit((ImageView)node);
         					gameSelected = true;
         					break;
         		}
@@ -182,8 +183,8 @@ public class MainMenuFormController {
     	}
     }
     
-    void playSplashSound() {
-    	MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/fruit" + new Random().nextInt(3)+ ".mp3").toString()));
+    void playSplashSound(Node node) {
+    	MediaPlayer mediaPlayer = new MediaPlayer(((Sliceable)node.getUserData()).getSounds().get(0));
 		mediaPlayer.setOnReady(new Runnable() {
 			@Override
 			public void run() {
