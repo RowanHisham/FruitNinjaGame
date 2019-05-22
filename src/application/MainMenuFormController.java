@@ -150,37 +150,36 @@ public class MainMenuFormController {
 		swordSoundTime = LocalTime.now();
     }
    }
-    
-    void checkIntersection() {
-    	for(Node node: pn_fruits.getChildren()) {
-        	if(node.getClass() == ImageView.class) {
-        		if (isIntersecting((ImageView)node) ) {                        
-        					
-        					int random = new Random().nextInt(3);
-        					if( ((Sliceable)node.getUserData()) instanceof Fruit ) {
-        					((ImageView) node).setImage(((Sliceable)node.getUserData()).getImages().get(1));
-        					ImageView splash = new ImageView(((Sliceable)node.getUserData()).getImages().get(2));
-        					        					
-        					Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
-        					splash.setX(boundsInScene.getMinX());
-        					splash.setY(boundsInScene.getMinY());
-        					splash.setOpacity(0.5);
-        					splash.setRotate(new Random().nextInt(360));
-        					
-        					FadeTransition ft = new FadeTransition(Duration.millis(3000), splash);
-        					ft.setToValue(0);
-        					ft.play();
-        					pn_main.getChildren().add(splash);
-        					pn_fruits.toFront();
-        					}
-        					playSplashSound(node);
-        					animateFruit((ImageView)node);
-        					gameSelected = true;
-        					break;
-        		}
-        	}
-    	}
-    }
+
+	void checkIntersection() {
+		for(Node node: pn_fruits.getChildren()) {
+			if(node.getClass() == ImageView.class) {
+				if (isIntersecting((ImageView)node) ) {
+
+					if(node.getUserData() instanceof Fruit ) {
+						((ImageView) node).setImage(((Sliceable)node.getUserData()).getImages().get(1));
+						ImageView splash = new ImageView(((Sliceable)node.getUserData()).getImages().get(2));
+
+						Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
+						splash.setX(boundsInScene.getMinX());
+						splash.setY(boundsInScene.getMinY());
+						splash.setOpacity(0.5);
+						splash.setRotate(new Random().nextInt(360));
+
+						FadeTransition ft = new FadeTransition(Duration.millis(3000), splash);
+						ft.setToValue(0);
+						ft.play();
+						pn_main.getChildren().add(splash);
+						pn_fruits.toFront();
+					}
+					playSplashSound(node);
+					animateFruit((ImageView)node);
+					gameSelected = true;
+					break;
+				}
+			}
+		}
+	}
     
     void playSplashSound(Node node) {
     	MediaPlayer mediaPlayer = new MediaPlayer(((Sliceable)node.getUserData()).getSounds().get(0));

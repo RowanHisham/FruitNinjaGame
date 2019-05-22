@@ -21,7 +21,7 @@ public class TimeStrategy implements GameStrategy {
         Controller.executeCommand(new UpdateTimeCommand(gameTime));
         timer = new Timer(true);
         startTimer();
-        Game.getCurrentGame().setState(new TimeDispenser());
+        Game.getCurrentGame().setState(new TimeDispenser(1300));
         Game.getCurrentGame().addObserver((observable, arg) -> {
             if(Game.GAME_STOPPED.equals(arg))
                 timer.cancel();

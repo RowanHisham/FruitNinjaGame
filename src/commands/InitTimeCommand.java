@@ -2,6 +2,9 @@ package commands;
 
 import application.MainGameFormController;
 import application.MainMenuFormController;
+import application.ProjectileAnimation;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,5 +34,11 @@ public class InitTimeCommand implements Command {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ProjectileAnimation.defaultOnFinished = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                MainGameFormController.getInstance().getFruitsPane().getChildren().remove(event.getSource());
+            }
+        };
     }
 }

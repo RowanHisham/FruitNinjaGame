@@ -12,7 +12,7 @@ public class LivesStrategy implements GameStrategy {
     @Override
     public void initialize() {
         Controller.execute();
-        Game.getCurrentGame().setState(new LivesDispenser());
+        Game.getCurrentGame().setState(new LivesDispenser(1300));
     }
 
     public void decrementLives() {

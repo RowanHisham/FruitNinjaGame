@@ -1,14 +1,12 @@
 package game.gamestate;
 
 import commands.DispenseCommand;
-import game.Game;
 import game.objects.Sliceable;
 import game.objects.SliceableType;
 
 
-public class TimeDispenser extends GameState {
-    private int dispensed = 0;
-    public TimeDispenser(int maxInterval) {
+public class FinalTimeDispenser extends GameState {
+    public FinalTimeDispenser(int maxInterval) {
         super(maxInterval);
     }
 
@@ -17,14 +15,6 @@ public class TimeDispenser extends GameState {
         double fatalChance = 0.05, special1Chance = 0.05, special2Chance = 0.03;
         double r = random.nextDouble();
         double p = fatalChance;
-        if(dispensed++ >= 25) {
-            stop();
-            int maxInterval = this.maxInterval - 150;
-            if(maxInterval < 650)
-                Game.getCurrentGame().setState(new FinalTimeDispenser(650));
-            else
-                Game.getCurrentGame().setState(new TimeDispenser(maxInterval));
-        }
         if(r<p) {
             delay = random.nextInt(maxInterval);
             return new DispenseCommand(Sliceable.newSliceable(SliceableType.FATAL_BOMB));

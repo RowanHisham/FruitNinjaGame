@@ -5,6 +5,7 @@ import commands.SliceCommand;
 import commands.UpdateScoreCommand;
 import game.Game;
 import game.objects.Banana;
+import game.objects.Fruit;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -43,13 +44,11 @@ public class IntersectionThread extends Thread{
 					if (node instanceof ImageView
 							&& node.getProperties().get("isSliced") == null
 							&& isIntersecting(node) ) {
-						node.getProperties().put("isSliced", true);
 						Platform.runLater(() -> Controller.executeCommand(new SliceCommand((ImageView)node)));
 					}
 				}
 			} catch (InterruptedException ex) {
 				System.out.println("Interrupted");
-				Thread.currentThread().interrupt();
 			}
 		}
 	}
@@ -58,18 +57,23 @@ public class IntersectionThread extends Thread{
 		if(path.getBoundsInParent().intersects(node.getBoundsInParent())){
 			if( node.getUserData() instanceof Banana)
 				specialFruitLabel(node);
-			
-			if(firstComboSlice) {
-				comboTime =  LocalTime.now();
-				combo++;
-				firstComboSlice = false;
-			}else if(comboTime.plusNanos(300000000).isAfter(LocalTime.now()) ){
-				combo++;
-				updateCombo(node);
-				System.out.println("COMBO " + combo);
-			}else {
+			if(!(node.getUserData() instanceof Fruit)) {
 				firstComboSlice = true;
 				combo = 0;
+			}
+			else {
+				if (firstComboSlice) {
+					comboTime = LocalTime.now();
+					combo++;
+					firstComboSlice = false;
+				} else if (comboTime.plusNanos(300000000).isAfter(LocalTime.now())) {
+					combo++;
+					updateCombo(node);
+					System.out.println("COMBO " + combo);
+				} else {
+					firstComboSlice = true;
+					combo = 0;
+				}
 			}
 			return true;
 		}
@@ -87,7 +91,7 @@ public class IntersectionThread extends Thread{
 			Controller.executeCommand(new UpdateScoreCommand());
 			Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
 			Label comboLabel = new Label();
-			comboLabel.setText(temp + " FRUIT\n COMBO!");
+			comboLabel.setText(temp + " FRUIT COMBO!\n+" + combo*5);
 			comboLabel.setFont(new Font("Gang of Three",30));
 			comboLabel.setStyle("-fx-text-fill: #ffce36");
 			comboLabel.setLayoutX(boundsInScene.getMinX());

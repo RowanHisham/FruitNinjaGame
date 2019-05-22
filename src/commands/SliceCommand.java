@@ -5,9 +5,11 @@ import game.objects.Fruit;
 import game.objects.Sliceable;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Bounds;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.Random;
@@ -20,6 +22,7 @@ public class SliceCommand implements Command {
     }
     @Override
     public void execute() {
+        image.getProperties().put("isSliced", true);
         Sliceable toSlice = (Sliceable) image.getUserData();
         toSlice.slice();
         AnchorPane pn_fruits = MainGameFormController.getInstance().getFruitsPane();
@@ -28,7 +31,7 @@ public class SliceCommand implements Command {
             Controller.executeCommand(new UpdateScoreCommand());
         if(toSlice instanceof Fruit) {
             image.setImage(toSlice.getImages().get(1));
-            javafx.scene.image.ImageView splash = new javafx.scene.image.ImageView(toSlice.getImages().get(2));
+            ImageView splash = new ImageView(toSlice.getImages().get(2));
             Bounds boundsInScene = image.localToScene(image.getBoundsInLocal());
             splash.setX(boundsInScene.getMinX());
             splash.setY(boundsInScene.getMinY());
@@ -39,6 +42,19 @@ public class SliceCommand implements Command {
             ft.setToValue(0);
             pn_main.getChildren().add(splash);
             ft.play();
+
+            Label scoreLabel = new Label();
+            scoreLabel.setText(String.valueOf(((Fruit)toSlice).getFruitScore()));
+            scoreLabel.setFont(new Font("Gang of Three",30));
+            scoreLabel.setStyle("-fx-text-fill: #ffce36");
+            scoreLabel.setLayoutX(boundsInScene.getMinX());
+            scoreLabel.setLayoutY(boundsInScene.getMinY()-40);
+            FadeTransition ft2 = new FadeTransition(Duration.millis(4000), scoreLabel);
+            ft2.setToValue(0);
+            ft2.setOnFinished(event -> pn_main.getChildren().remove(scoreLabel));
+            pn_main.getChildren().add(scoreLabel);
+            ft2.play();
+
             pn_fruits.toFront();
         }
         else {

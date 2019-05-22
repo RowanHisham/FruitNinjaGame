@@ -6,12 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 
 public class ProjectileAnimation {
-    public static EventHandler<ActionEvent> defaultOnFinished = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            MainGameFormController.getInstance().getFruitsPane().getChildren().remove(event.getSource());
-        }
-    };
+    public static EventHandler<ActionEvent> defaultOnFinished = null;
 
     private Node node;
     private AnimationTimer timer;

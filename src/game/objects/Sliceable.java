@@ -45,7 +45,7 @@ public abstract class Sliceable {
         else if (type==SliceableType.SPECIAL_1)
             return new Fruit(Fruit.getSpecial1Images(), 30);
         else if (type==SliceableType.SPECIAL_2)
-            return new Banana(Fruit.getSpecial2Images(), 30);
+            return new Banana(Fruit.getSpecial2Images(), 20);
         return null;
     }
 

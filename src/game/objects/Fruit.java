@@ -60,6 +60,10 @@ public class Fruit extends Sliceable {
         Game.getCurrentGame().addScore(fruitScore);
     }
 
+    public int getFruitScore() {
+        return fruitScore;
+    }
+
     static List<Image> getAppleImages() {
         return APPLE_IMAGES;
     }

@@ -4,22 +4,14 @@ import commands.Controller;
 import commands.DispenseCommand;
 import game.Game;
 
+import java.util.Observer;
 import java.util.Random;
 
 public abstract class GameState {
     static Random random = new Random();
     int delay = 0;
-    int defaultInterval = 1500;
-
-    GameState() {
-        scheduler.setDaemon(true);
-        scheduler.start();
-        Game.getCurrentGame().addObserver((observable, arg) -> {
-            if(Game.GAME_STOPPED.equals(arg))
-                scheduler.interrupt();
-        });
-    }
-
+    int maxInterval;
+    private Observer endGameObserver;
     private Thread scheduler = new Thread(() -> {
         while(!Thread.interrupted()) {
             Controller.executeCommand(nextDispense());
@@ -31,6 +23,24 @@ public abstract class GameState {
             }
         }
     });
+
+    GameState(int maxInterval) {
+        this.maxInterval = maxInterval;
+        System.out.println("Max interval between fruit = " + maxInterval + "ms");
+        scheduler.setDaemon(true);
+        scheduler.start();
+        endGameObserver = (observable, arg) -> {
+            if(Game.GAME_STOPPED.equals(arg))
+                scheduler.interrupt();
+        };
+        Game.getCurrentGame().addObserver(endGameObserver);
+    }
+
+
+    void stop() {
+        scheduler.interrupt();
+        Game.getCurrentGame().deleteObserver(endGameObserver);
+    }
 
     abstract DispenseCommand nextDispense();
 }
