@@ -4,8 +4,6 @@ import commands.Controller;
 import commands.SliceCommand;
 import commands.UpdateScoreCommand;
 import game.Game;
-import game.objects.Fruit;
-import game.objects.Sliceable;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -20,7 +18,6 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.time.LocalTime;
-import java.util.Random;
 
 public class IntersectionThread extends Thread{
 	private AnchorPane pn_fruits, pn_main;
@@ -48,41 +45,7 @@ public class IntersectionThread extends Thread{
 							&& node.getProperties().get("isSliced") == null
 							&& isIntersecting(node) ) {
 						node.getProperties().put("isSliced", true);
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-                                Sliceable sliceable = (Sliceable) node.getUserData();
-                                Controller.executeCommand(new SliceCommand(sliceable));
-                                if(sliceable instanceof Fruit) {
-                                    ((ImageView) node).setImage(sliceable.getImages().get(1));
-                                    ImageView splash = new ImageView(sliceable.getImages().get(2));
-                                    Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
-                                    splash.setX(boundsInScene.getMinX());
-                                    splash.setY(boundsInScene.getMinY());
-                                    splash.setOpacity(0.5);
-                                    splash.setRotate(new Random().nextInt(360));
-                                    FadeTransition ft = new FadeTransition(Duration.millis(3000), splash);
-                                    ft.setToValue(0);
-                                    ft.play();
-                                    pn_main.getChildren().add(splash);
-                                }
-                                else {
-                                    node.setVisible(false);
-                                }
-								MediaPlayer mediaPlayer = new MediaPlayer(sliceable.randomSound());
-								mediaPlayer.setOnReady(new Runnable() {
-									@Override
-									public void run() {
-										mediaPlayer.stop();
-										mediaPlayer.play();
-									}
-								});
-								mediaPlayer.stop();
-								mediaPlayer.play();
-                                pn_fruits.toFront();
-							}
-						});
-
+						Platform.runLater(() -> Controller.executeCommand(new SliceCommand((ImageView)node)));
 					}
 				}
 			} catch (InterruptedException ex) {

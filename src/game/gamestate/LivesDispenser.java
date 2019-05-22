@@ -20,24 +20,24 @@ public class LivesDispenser extends GameState {
         double r = random.nextDouble();
         double p = fatalChance;
         if(r<p) {
-            delay = random.nextInt(1001);
+            delay = random.nextInt(defaultInterval);
             return new DispenseCommand(Sliceable.newSliceable(SliceableType.FATAL_BOMB), delay);
         }
         else if(r<(p+=dangerousChance)) {
-            delay = random.nextInt(1001);
+            delay = random.nextInt(defaultInterval);
             return new DispenseCommand(Sliceable.newSliceable(SliceableType.DANGEROUS_BOMB), delay);
         }
         else if(r<(p+=special1Chance)) {
-            delay = random.nextInt(1001);
+            delay = random.nextInt(defaultInterval);
             return new DispenseCommand(Sliceable.newSliceable(SliceableType.SPECIAL_1), delay);
         }
         else if(r<(p+=special2Chance)) {
-            delay = random.nextInt(1001);
+            delay = random.nextInt(defaultInterval);
             return new DispenseCommand(Sliceable.newSliceable(SliceableType.SPECIAL_2), delay);
         }
         else {
             SliceableType type = SliceableType.class.getEnumConstants()[random.nextInt(6)];
-            delay = random.nextInt(1001);
+            delay = random.nextInt(defaultInterval);
             return new DispenseCommand(Sliceable.newSliceable(type), delay);
         }
     }

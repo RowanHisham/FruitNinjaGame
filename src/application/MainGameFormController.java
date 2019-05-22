@@ -130,8 +130,11 @@ public class MainGameFormController {
 		}
 	}
 
-	AnchorPane getFruitsPane() {
+	public AnchorPane getFruitsPane() {
 		return pn_fruits;
+	}
+	public AnchorPane getMainPane() {
+		return pn_main;
 	}
 
 	public void gameOver() {
@@ -151,9 +154,9 @@ public class MainGameFormController {
 			((ProjectileAnimation)node.getProperties().get("projectileAnimation")).stop();
 			pn_fruits.getChildren().remove(node);
 		}
-		pn_gameOver.toFront();
 		pn_gameOver.setVisible(true);
 		TIMER.purge();
+		pn_gameOver.toFront();
 	}
 
 	public void scheduleSliceable(SliceableTask task, long delay) {

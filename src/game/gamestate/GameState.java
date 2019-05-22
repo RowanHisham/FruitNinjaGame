@@ -8,6 +8,7 @@ import java.util.Random;
 public abstract class GameState {
     static Random random = new Random();
     int delay = 0;
+    int defaultInterval = 2000;
 
     public GameState() {
         scheduler.start();
