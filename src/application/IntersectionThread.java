@@ -4,6 +4,9 @@ import commands.Controller;
 import commands.SliceCommand;
 import commands.UpdateScoreCommand;
 import game.Game;
+import game.objects.Banana;
+import game.objects.Fruit;
+import game.objects.Sliceable;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -18,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.time.LocalTime;
+import java.util.Random;
 
 public class IntersectionThread extends Thread{
 	private AnchorPane pn_fruits, pn_main;
@@ -57,6 +61,9 @@ public class IntersectionThread extends Thread{
 
 	boolean isIntersecting(Node node) {
 		if(path.getBoundsInParent().intersects(node.getBoundsInParent())){
+			if( node.getUserData() instanceof Banana)
+				specialFruitLabel(node);
+			
 			if(firstComboSlice) {
 				comboTime =  LocalTime.now();
 				combo++;
@@ -110,4 +117,34 @@ public class IntersectionThread extends Thread{
 
 		}	}
 
+	void specialFruitLabel(Node node) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+		Game.getCurrentGame().addScore(combo*5);
+		Controller.executeCommand(new UpdateScoreCommand());
+		Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
+		Label fruitLabel = new Label();
+		fruitLabel.setText("SPECIAL FRUIT!");
+		fruitLabel.setFont(new Font("Gang of Three",30));
+		fruitLabel.setStyle("-fx-text-fill: #ffce36");
+		fruitLabel.setLayoutX(boundsInScene.getMinX());
+		fruitLabel.setLayoutY(boundsInScene.getMinY());
+		FadeTransition ft = new FadeTransition(Duration.millis(4000), fruitLabel);
+		ft.setToValue(0);
+		ft.play();
+		
+		MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/combo.mp3").toString()));
+		mediaPlayer.setOnReady(new Runnable() {
+			@Override
+			public void run() {
+				mediaPlayer.stop();
+				mediaPlayer.play();
+			}
+		});
+
+		pn_main.getChildren().add(fruitLabel);
+			}
+		});
+	}
 }
