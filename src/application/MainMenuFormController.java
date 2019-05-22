@@ -4,6 +4,8 @@ import commands.Controller;
 import commands.InitLivesCommand;
 import commands.InitTimeCommand;
 import game.Game;
+import game.objects.Sliceable;
+import game.objects.SliceableType;
 import game.strategies.LivesStrategy;
 import game.strategies.TimeStrategy;
 import javafx.animation.*;
@@ -58,7 +60,10 @@ public class MainMenuFormController {
 
     @FXML
 	public void initialize() {
-    	
+    	img_classic.setUserData(Sliceable.newSliceable(SliceableType.APPLE));
+    	img_arcade.setUserData(Sliceable.newSliceable(SliceableType.ORANGE));
+//    	img_quit.setUserData(Sliceable.newSliceable(SliceableType.FATAL_BOMB));
+
     	mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/mainTheme.mp3").toString()));
     	mediaPlayer.setOnEndOfMedia(new Runnable() {
 			public void run() {
@@ -152,17 +157,9 @@ public class MainMenuFormController {
         		if (isIntersecting((ImageView)node) ) {                        
         					
         					int random = new Random().nextInt(3);
-        					ImageView splash;
+        					((ImageView) node).setImage(((Sliceable)node.getUserData()).getImages().get(1));
+        					ImageView splash = new ImageView(((Sliceable)node.getUserData()).getImages().get(2));
         					
-        					//TODO get images later from objects not randomized 
-        					if(random%2 == 0) {
-        					    ((ImageView) node).setImage(new Image("/pomSplit.png",true));
-        						splash = new ImageView(new Image("/colorsplash1.png",true));
-        						
-        					}else {
-        						((ImageView) node).setImage(new Image("/orangeSplit.png",true));
-            					 splash = new ImageView(new Image("/colorsplash2.png",true));
-        					}
         					playSplashSound();
         					
         					Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
@@ -175,6 +172,7 @@ public class MainMenuFormController {
         					ft.setToValue(0);
         					ft.play();
         					animateFruit((ImageView)node);
+        					((Sliceable)node.getUserData()).getImages().get(2);
         					pn_main.getChildren().add(splash);
         					pn_fruits.toFront();
         					gameSelected = true;

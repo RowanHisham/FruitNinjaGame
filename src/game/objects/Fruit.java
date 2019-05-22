@@ -20,7 +20,7 @@ public class Fruit extends Sliceable {
     static {
         APPLE_IMAGES.add(new Image("/apple.png"));
         APPLE_IMAGES.add(new Image("/appleSplit.png"));
-        APPLE_IMAGES.add(new Image("/colorSplash1.png"));
+        APPLE_IMAGES.add(new Image("/colorSplash3.png"));
         ORANGE_IMAGES.add(new Image("/orange.png"));
         ORANGE_IMAGES.add(new Image("/orangeSplit.png"));
         ORANGE_IMAGES.add(new Image("/colorSplash2.png"));
