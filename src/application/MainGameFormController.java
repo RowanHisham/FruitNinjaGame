@@ -135,6 +135,15 @@ public class MainGameFormController {
 	}
 
 	public void gameOver() {
+		MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/gameOver.mp3").toString()));
+		mediaPlayer.setOnReady(new Runnable() {
+			@Override
+			public void run() {
+				mediaPlayer.stop();
+				mediaPlayer.play();
+			}
+		});
+		
 		TIMER.cancel();
 		for(Node node: new ArrayList<>(pn_fruits.getChildren())) {
 			if(!(node instanceof ImageView))
