@@ -2,7 +2,6 @@ package commands;
 
 import application.MainGameFormController;
 import application.MainMenuFormController;
-import application.ProjectileAnimation;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +19,6 @@ public class InitTimeCommand implements Command {
 
     @Override
     public void execute() {
-        ProjectileAnimation.defaultOnFinished = null;
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(MainMenuFormController.class.getResource("MainGameForm.fxml"));

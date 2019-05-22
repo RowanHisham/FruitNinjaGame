@@ -54,7 +54,14 @@ public class MainGameFormController {
 		instance = this;
 		pn_gameOver.setVisible(false);
 		startThread();
-		lbl_highScore.setText(String.valueOf(Game.getCurrentGame().getHighScore()));
+		updateScore(0);
+		updateHighScore(Game.getCurrentGame().getHighScore());
+		Game.getCurrentGame().addObserver((observable, arg) -> {
+			if(Game.GAME_STOPPED.equals(arg)) {
+			TIMER.cancel();
+			TIMER.purge();
+			}
+		});
 	}
 
 	private void startThread() {
@@ -66,6 +73,7 @@ public class MainGameFormController {
 	@FXML
 	void onButtonAction(ActionEvent event) throws IOException {
 		if(event.getSource() == btn_mainmenu || event.getSource() == btn_mainmenu1) {
+			Game.getCurrentGame().stopGame();
 			Parent root = (AnchorPane)FXMLLoader.load(getClass().getResource("MainMenuForm.fxml"));
 			Scene MainFormScene = new Scene(root);
 			Stage window = (Stage)(((Node) event.getSource()).getScene().getWindow());
@@ -139,15 +147,11 @@ public class MainGameFormController {
 
 	public void gameOver() {
 		MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/gameOver.mp3").toString()));
-		mediaPlayer.setOnReady(new Runnable() {
-			@Override
-			public void run() {
-				mediaPlayer.stop();
-				mediaPlayer.play();
-			}
+		mediaPlayer.setOnReady(() -> {
+			mediaPlayer.stop();
+			mediaPlayer.play();
 		});
-		
-		TIMER.cancel();
+
 		for(Node node: new ArrayList<>(pn_fruits.getChildren())) {
 			if(!(node instanceof ImageView))
 				continue;
@@ -155,7 +159,6 @@ public class MainGameFormController {
 			pn_fruits.getChildren().remove(node);
 		}
 		pn_gameOver.setVisible(true);
-		TIMER.purge();
 		pn_gameOver.toFront();
 		lbl_gameOverScore.setText("Score: " + Game.getCurrentGame().getScore());
 		lbl_gameOverBestScore.setText("High Score: " + Game.getCurrentGame().getHighScore());

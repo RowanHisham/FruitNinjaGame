@@ -3,19 +3,22 @@ package commands;
 import application.MainGameFormController;
 import game.Game;
 
+import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class EndGameCommand implements Command {
     @Override
     public void execute() {
-        Game.getCurrentGame().getState().stop();
+        Game game = Game.getCurrentGame();
+        game.stopGame();
         MainGameFormController.getInstance().gameOver();
-        int highScore = Game.getCurrentGame().getHighScore();
-        String fileName = Game.getCurrentGame().getStrategy().toString() + "_high_score";
+        int highScore = game.getHighScore();
+        String fileName = game.getStrategy().toString() + "_high_score";
         try {
-            FileOutputStream outputStream = new FileOutputStream(fileName);
-            outputStream.write(highScore);
+            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(fileName));
+            outputStream.writeInt(highScore);
+            outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();

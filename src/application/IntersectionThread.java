@@ -5,8 +5,6 @@ import commands.SliceCommand;
 import commands.UpdateScoreCommand;
 import game.Game;
 import game.objects.Banana;
-import game.objects.Fruit;
-import game.objects.Sliceable;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -21,7 +19,6 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.time.LocalTime;
-import java.util.Random;
 
 public class IntersectionThread extends Thread{
 	private AnchorPane pn_fruits, pn_main;
@@ -42,9 +39,7 @@ public class IntersectionThread extends Thread{
 		while(!Thread.interrupted()){
 			try {
 				Thread.sleep(150);
-				if(pn_fruits.getChildren() == null)
-					return;
-				for(Node node: pn_fruits.getChildren()) {
+				for(Node node: pn_fruits.getChildren().toArray(new Node[0])) {
 					if (node instanceof ImageView
 							&& node.getProperties().get("isSliced") == null
 							&& isIntersecting(node) ) {
@@ -99,6 +94,7 @@ public class IntersectionThread extends Thread{
 			comboLabel.setLayoutY(boundsInScene.getMinY());
 			FadeTransition ft = new FadeTransition(Duration.millis(4000), comboLabel);
 			ft.setToValue(0);
+			ft.setOnFinished(event -> pn_main.getChildren().remove(comboLabel));
 			ft.play();
 
 			MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/combo.mp3").toString()));
@@ -132,8 +128,9 @@ public class IntersectionThread extends Thread{
 		fruitLabel.setLayoutY(boundsInScene.getMinY());
 		FadeTransition ft = new FadeTransition(Duration.millis(4000), fruitLabel);
 		ft.setToValue(0);
+		ft.setOnFinished(event -> pn_main.getChildren().remove(fruitLabel));
 		ft.play();
-		
+
 		MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/combo.mp3").toString()));
 		mediaPlayer.setOnReady(new Runnable() {
 			@Override

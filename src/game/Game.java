@@ -3,14 +3,17 @@ package game;
 import game.gamestate.GameState;
 import game.strategies.GameStrategy;
 
+import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Observable;
 
-public class Game {
+public class Game extends Observable {
     private static Game currentGame;
     public static Game getCurrentGame() {
         return currentGame;
     }
+    public static final String GAME_STOPPED = "game.Game.GAME_STOPPED";
 
     private GameState state;
     private int score;
@@ -23,8 +26,8 @@ public class Game {
         this.score = 0;
         String fileName = strategy.toString() + "_high_score";
         try {
-            FileInputStream inputStream = new FileInputStream(fileName);
-            highScore = inputStream.read();
+            DataInputStream inputStream = new DataInputStream(new FileInputStream(fileName));
+            highScore = inputStream.readInt();
             inputStream.close();
         } catch (IOException e) {
             highScore = 0;
@@ -37,6 +40,11 @@ public class Game {
         score += toAdd;
         if(score > highScore)
             highScore = score;
+    }
+    public void stopGame() {
+        setChanged();
+        notifyObservers(GAME_STOPPED);
+        deleteObservers();
     }
 
     public GameStrategy getStrategy() {

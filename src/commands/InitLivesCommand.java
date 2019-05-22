@@ -47,6 +47,7 @@ public class InitLivesCommand implements Command {
                 if(source.getProperties().get("isSliced") == null
                         && source.getUserData() instanceof Fruit)
                     Controller.executeCommand(new LoseLifeCommand());
+                MainGameFormController.getInstance().getFruitsPane().getChildren().remove(source);
             }
         };
     }

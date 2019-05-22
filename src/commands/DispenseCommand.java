@@ -14,6 +14,6 @@ public class DispenseCommand implements Command {
     }
     @Override
     public void execute() {
-        MainGameFormController.getInstance().scheduleSliceable(task, delay);
+        MainGameFormController.getInstance().scheduleSliceable(task, 0);
     }
 }

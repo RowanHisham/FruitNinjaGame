@@ -35,9 +35,10 @@ public class SliceCommand implements Command {
             splash.setOpacity(0.5);
             splash.setRotate(new Random().nextInt(360));
             FadeTransition ft = new FadeTransition(Duration.millis(3000), splash);
+            ft.setOnFinished((event) -> pn_main.getChildren().remove(splash));
             ft.setToValue(0);
-            ft.play();
             pn_main.getChildren().add(splash);
+            ft.play();
             pn_fruits.toFront();
         }
         else {
