@@ -36,15 +36,15 @@ public abstract class Sliceable {
         else if (type== SliceableType.FATAL_BOMB)
             return new FatalBomb();
         else if (type==SliceableType.POM)
-            return new Fruit(Fruit.getPOMImages(), 10);
-        else if (type==SliceableType.Pear)
+            return new Fruit(Fruit.getPomImages(), 10);
+        else if (type==SliceableType.PEAR)
             return new Fruit(Fruit.getPearImages(), 10);
-        else if (type==SliceableType.Lemon)
+        else if (type==SliceableType.LEMON)
             return new Fruit(Fruit.getLemonImages(), 10);
-        else if (type==SliceableType.Special1)
-            return new Fruit(Fruit.getSpecial1_IMAGES(), 30);
-        else if (type==SliceableType.Special2)
-            return new Fruit(Fruit.getSpecial2_IMAGES(), 30);
+        else if (type==SliceableType.SPECIAL_1)
+            return new Fruit(Fruit.getSpecial1Images(), 30);
+        else if (type==SliceableType.SPECIAL_2)
+            return new Fruit(Fruit.getSpecial2Images(), 30);
 
 
 

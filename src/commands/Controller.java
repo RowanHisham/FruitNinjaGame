@@ -1,13 +1,16 @@
 package commands;
 
-import game.strategies.GameStrategy;
-
 public class Controller {
-    //TODO controller
-    public Controller(GameStrategy strategy) {
-        //This should initialize the game
+    private static Command command;
+    private Controller() {}
+    public static void executeCommand(Command command) {
+        command.execute();
     }
-    public void executeCommand(Command command) {
-
+    public static void execute() {
+        command.execute();
+        command = null;
+    }
+    public static void setCommand(Command command) {
+        Controller.command = command;
     }
 }

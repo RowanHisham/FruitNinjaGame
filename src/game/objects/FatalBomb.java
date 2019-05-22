@@ -1,8 +1,7 @@
 package game.objects;
 
+import commands.Controller;
 import commands.EndGameCommand;
-import commands.LoseLifeCommand;
-import game.Game;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
@@ -23,6 +22,6 @@ public class FatalBomb extends Sliceable {
 
     @Override
     public void slice() {
-        Game.getCurrentGame().getController().executeCommand(new EndGameCommand());
+        Controller.executeCommand(new EndGameCommand());
     }
 }

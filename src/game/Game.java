@@ -1,7 +1,10 @@
 package game;
 
-import commands.Controller;
+import game.gamestate.GameState;
 import game.strategies.GameStrategy;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class Game {
     private static Game currentGame;
@@ -9,21 +12,32 @@ public class Game {
         return currentGame;
     }
 
-    private GameStrategy strategy;
     private GameState state;
     private int score;
-    private Controller controller;
+    private int highScore;
+    private GameStrategy strategy;
+
 
     public Game(GameStrategy strategy, GameState state) {
         this.strategy = strategy;
         this.state = state;
         this.score = 0;
-        this.controller = new Controller(strategy);
+        String fileName = strategy.toString() + "_high_score";
+        try {
+            FileInputStream inputStream = new FileInputStream(fileName);
+            highScore = inputStream.read();
+            inputStream.close();
+        } catch (IOException e) {
+            highScore = 0;
+        }
         currentGame = this;
+        strategy.initialize();
     }
 
     public void addScore(int toAdd) {
         score += toAdd;
+        if(score > highScore)
+            highScore = score;
     }
 
     public GameStrategy getStrategy() {
@@ -38,10 +52,7 @@ public class Game {
     public int getScore() {
         return score;
     }
-    public void setScore(int score) {
-        this.score = score;
-    }
-    public Controller getController() {
-        return controller;
+    public int getHighScore() {
+        return highScore;
     }
 }

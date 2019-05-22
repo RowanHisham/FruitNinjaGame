@@ -7,9 +7,9 @@ public enum SliceableType {
     DANGEROUS_BOMB,
     FATAL_BOMB,
     POM,
-    Lemon,
-    Pear,
-    Special1,
-    Special2
+    LEMON,
+    PEAR,
+    SPECIAL_1,
+    SPECIAL_2
 
 }

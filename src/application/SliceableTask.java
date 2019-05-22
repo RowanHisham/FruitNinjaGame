@@ -1,32 +1,29 @@
 package application;
 
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
+import game.objects.Sliceable;
+import game.objects.SliceableType;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.util.Duration;
 
-public class NewFruitScheduledTask extends TimerTask {
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class SliceableTask extends TimerTask {
 	static Timer timer = new Timer();
 	private AnchorPane pn_fruits;
 	
-	NewFruitScheduledTask(AnchorPane pn_fruits){
+	SliceableTask(AnchorPane pn_fruits){
 		this.pn_fruits = pn_fruits;
 	}
-	
+
+	@Override
     public void run() {
     	int delay = (new Random().nextInt(5)) * 300;
     	//TODO add stop condition
-    	timer.schedule(new NewFruitScheduledTask(pn_fruits), delay);
+    	timer.schedule(new SliceableTask(pn_fruits), delay);
     	fruitPathAnimation();
     }
    
@@ -42,15 +39,14 @@ public class NewFruitScheduledTask extends TimerTask {
     	}else if(random%4 == 3 ){
     		image.setImage(new Image("/pom.png",true));
     	}
-    	
-    	ProjectileAnimation animation = new ProjectileAnimation(image);
-    	animation.play();
 
-    	Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-		    	pn_fruits.getChildren().add(image);
-			}
+    	ProjectileAnimation animation = new ProjectileAnimation(image);
+    	image.setUserData(Sliceable.newSliceable(SliceableType.APPLE));
+    	image.getProperties().put("projectileAnimation", animation);
+
+    	Platform.runLater(() -> {
+			pn_fruits.getChildren().add(image);
+			animation.play();
         });
     
      }

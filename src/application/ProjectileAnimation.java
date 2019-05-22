@@ -6,15 +6,17 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 
 public class ProjectileAnimation {
+    public static EventHandler<ActionEvent> defaultOnFinished = null;
+
     private Node node;
     private AnimationTimer timer;
     private double maxX, maxY;
     private double initialVx, initialVy;
-    private double duration;
     private long startTime = 0;
     private double g;
 
     private EventHandler<ActionEvent> onFinished;
+    private ActionEvent event;
 
     public ProjectileAnimation(Node node) {
         this(node, 1196, 747);
@@ -24,6 +26,8 @@ public class ProjectileAnimation {
         this.maxX = parentWidth;
         this.maxY = parentHeight;
         this.g = parentHeight*1.5;
+        this.event = new ActionEvent(node, null);
+        this.onFinished = defaultOnFinished;
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -37,7 +41,7 @@ public class ProjectileAnimation {
         node.setLayoutY(maxY);
         double y = Math.random()*maxY*0.2+maxY*0.75;
         initialVy = Math.sqrt(2*g*y);
-        duration = 2 * Math.abs(initialVy / g);
+        double duration = 2 * Math.abs(initialVy / g);
         double layoutX = node.getLayoutX();
         int sign;
         if(layoutX < maxX/2)
@@ -66,11 +70,10 @@ public class ProjectileAnimation {
         node.setTranslateX(-initialVx * t);
         double dy = initialVy * t - 0.5 * g * t * t;
         node.setTranslateY(-dy);
-        if (t >= duration) {
-            node.setTranslateY(maxY);
+        if (node.getTranslateY() >= 0) {
             stop();
             if(onFinished != null)
-                onFinished.handle(new ActionEvent(node, null));
+                onFinished.handle(event);
         }
     }
 

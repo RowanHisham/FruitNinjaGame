@@ -1,22 +1,17 @@
 package application;
 
-import java.io.IOException;
-import java.time.LocalTime;
-import java.util.Random;
-
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
+import commands.Controller;
+import commands.InitLivesCommand;
+import commands.InitTimeCommand;
+import game.Game;
+import game.strategies.LivesStrategy;
+import game.strategies.TimeStrategy;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +23,9 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.time.LocalTime;
+import java.util.Random;
 
 public class MainMenuFormController {
 
@@ -209,30 +207,14 @@ public class MainMenuFormController {
             public void handle(ActionEvent t) {
             	mediaPlayer.stop();
             	if(image.equals(img_classic)) {
-            		Parent root;
-					try {
-						root = (AnchorPane)FXMLLoader.load(getClass().getResource("MainGameForm.fxml"));
-						Scene MainFormScene = new Scene(root);
-	        			Stage window = (Stage)(img_classic.getScene().getWindow());
-	        			window.setScene(MainFormScene);
-	        			window.show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}	
+            		Controller.setCommand(new InitLivesCommand((Stage)img_classic.getScene().getWindow()));
+            		new Game(new LivesStrategy(), null);
             	}else if( image.equals(img_quit)) {
             		Stage window = (Stage)(img_quit.getScene().getWindow());
             		window.close();
             	}else if(image.equals(img_arcade)) {
-            		Parent root;
-					try {
-						root = (AnchorPane)FXMLLoader.load(getClass().getResource("MainGameForm.fxml"));
-						Scene MainFormScene = new Scene(root);
-	        			Stage window = (Stage)(img_arcade.getScene().getWindow());
-	        			window.setScene(MainFormScene);
-	        			window.show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					Controller.setCommand(new InitTimeCommand((Stage)img_arcade.getScene().getWindow()));
+					new Game(new TimeStrategy(), null);
             	}
             }
         });

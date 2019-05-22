@@ -1,7 +1,7 @@
 package game.objects;
 
+import commands.Controller;
 import commands.LoseLifeCommand;
-import game.Game;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
@@ -23,6 +23,6 @@ public class DangerousBomb extends Sliceable {
     @Override
     public void slice() {
         //TODO on dangerous bomb slice
-        Game.getCurrentGame().getController().executeCommand(new LoseLifeCommand());
+        Controller.executeCommand(new LoseLifeCommand());
     }
 }

@@ -1,12 +1,11 @@
 package application;
 	
 import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Parent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 
 public class Main extends Application {
@@ -24,6 +23,7 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		Font.loadFont("/go3v2.ttf",10);
 		launch(args);
 	}
 }
