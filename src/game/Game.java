@@ -14,6 +14,7 @@ public class Game extends Observable {
         return currentGame;
     }
     public static final String GAME_STOPPED = "game.Game.GAME_STOPPED";
+    public static final String SCORE_CHANGED = "game.Game.SCORE_CHANGED";
 
     private GameState state;
     private int score;
@@ -40,6 +41,8 @@ public class Game extends Observable {
         score += toAdd;
         if(score > highScore)
             highScore = score;
+        setChanged();
+        notifyObservers(SCORE_CHANGED);
     }
     public void stopGame() {
         setChanged();

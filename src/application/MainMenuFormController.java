@@ -88,7 +88,7 @@ public class MainMenuFormController {
     		}
 	}
     
-    void rotateImage(ImageView imageView, int delay, int direction) {
+    private void rotateImage(ImageView imageView, int delay, int direction) {
     	RotateTransition rt = new RotateTransition(Duration.seconds(delay), imageView);
     	rt.setByAngle(direction*360);
     	rt.setCycleCount(Animation.INDEFINITE);
@@ -135,7 +135,7 @@ public class MainMenuFormController {
     	path.toFront();
     }
     
-    void playSwordSound() {
+    private void playSwordSound() {
     	if( swordSoundTime.plusSeconds(1).isBefore(LocalTime.now())) {
         MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/sword.mp3").toString()));
 		mediaPlayer.setOnReady(new Runnable() {
@@ -151,7 +151,7 @@ public class MainMenuFormController {
     }
    }
 
-	void checkIntersection() {
+	private void checkIntersection() {
 		for(Node node: pn_fruits.getChildren()) {
 			if(node.getClass() == ImageView.class) {
 				if (isIntersecting((ImageView)node) ) {
@@ -181,7 +181,7 @@ public class MainMenuFormController {
 		}
 	}
     
-    void playSplashSound(Node node) {
+    private void playSplashSound(Node node) {
     	MediaPlayer mediaPlayer = new MediaPlayer(((Sliceable)node.getUserData()).getSounds().get(0));
 		mediaPlayer.setOnReady(new Runnable() {
 			@Override
@@ -194,7 +194,7 @@ public class MainMenuFormController {
 		mediaPlayer.play();
     }
     
-    void animateFruit(ImageView image) {
+    private void animateFruit(ImageView image) {
     	TranslateTransition trans = new TranslateTransition(Duration.seconds(2), image);
         trans.setFromY(image.getY());
         trans.setToY(pn_fruits.getHeight() - image.getY());
@@ -218,7 +218,7 @@ public class MainMenuFormController {
         trans.play();      
     }
     
-    boolean isIntersecting(ImageView image) {
+    private boolean isIntersecting(ImageView image) {
     	return path.getBoundsInParent().intersects(image.getBoundsInParent());
     }    
 }

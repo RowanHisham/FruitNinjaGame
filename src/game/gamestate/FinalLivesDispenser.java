@@ -5,9 +5,9 @@ import game.objects.Sliceable;
 import game.objects.SliceableType;
 
 
-public class FinalLivesDispenser extends GameState {
+class FinalLivesDispenser extends GameState {
 
-    public FinalLivesDispenser(int maxInterval) {
+    FinalLivesDispenser(int maxInterval) {
         super(maxInterval);
     }
 

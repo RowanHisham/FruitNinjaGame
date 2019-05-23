@@ -5,8 +5,8 @@ import game.objects.Sliceable;
 import game.objects.SliceableType;
 
 
-public class FinalTimeDispenser extends GameState {
-    public FinalTimeDispenser(int maxInterval) {
+class FinalTimeDispenser extends GameState {
+    FinalTimeDispenser(int maxInterval) {
         super(maxInterval);
     }
 

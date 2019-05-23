@@ -55,11 +55,18 @@ public class MainGameFormController {
 		pn_gameOver.setVisible(false);
 		startThread();
 		updateScore(0);
-		updateHighScore(Game.getCurrentGame().getHighScore());
-		Game.getCurrentGame().addObserver((observable, arg) -> {
+		Game game = Game.getCurrentGame();
+		updateHighScore(game.getHighScore());
+		game.addObserver((observable, arg) -> {
 			if(Game.GAME_STOPPED.equals(arg)) {
-			TIMER.cancel();
-			TIMER.purge();
+				TIMER.cancel();
+				TIMER.purge();
+			}
+		});
+		game.addObserver((observable, arg) -> {
+			if(Game.SCORE_CHANGED.equals(arg)) {
+				updateScore(Game.getCurrentGame().getScore());
+				updateHighScore(Game.getCurrentGame().getHighScore());
 			}
 		});
 	}
@@ -122,7 +129,7 @@ public class MainGameFormController {
 		thread.interrupt();
 	}
 
-	void playSwordSound() {
+	private void playSwordSound() {
 		if( swordSoundTime.plusSeconds(1).isBefore(LocalTime.now())) {
 			MediaPlayer mediaPlayer = new MediaPlayer( new Media(getClass().getResource("/sword.mp3").toString()));
 			mediaPlayer.setOnReady(new Runnable() {
@@ -159,9 +166,9 @@ public class MainGameFormController {
 			pn_fruits.getChildren().remove(node);
 		}
 		pn_gameOver.setVisible(true);
-		pn_gameOver.toFront();
 		lbl_gameOverScore.setText("Score: " + Game.getCurrentGame().getScore());
 		lbl_gameOverBestScore.setText("High Score: " + Game.getCurrentGame().getHighScore());
+		pn_gameOver.toFront();
 	}
 
 	public void scheduleSliceable(SliceableTask task, long delay) {
@@ -176,10 +183,10 @@ public class MainGameFormController {
 
 		img_lives.setImage(new Image("/lives"+live+".png",true));
 	}
-	public void updateScore(int score) {
+	private void updateScore(int score) {
 		lbl_score.setText(String.valueOf(score));
 	}
-	public void updateHighScore(int highScore) {
+	private void updateHighScore(int highScore) {
 		lbl_highScore.setText("Best: " + highScore);
 	}
 }

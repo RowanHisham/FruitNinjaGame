@@ -27,8 +27,6 @@ public class SliceCommand implements Command {
         toSlice.slice();
         AnchorPane pn_fruits = MainGameFormController.getInstance().getFruitsPane();
         AnchorPane pn_main = MainGameFormController.getInstance().getMainPane();
-        if(toSlice instanceof Fruit)
-            Controller.executeCommand(new UpdateScoreCommand());
         if(toSlice instanceof Fruit) {
             image.setImage(toSlice.getImages().get(1));
             ImageView splash = new ImageView(toSlice.getImages().get(2));

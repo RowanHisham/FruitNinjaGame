@@ -2,7 +2,6 @@ package application;
 
 import commands.Controller;
 import commands.SliceCommand;
-import commands.UpdateScoreCommand;
 import game.Game;
 import game.objects.Banana;
 import game.objects.Fruit;
@@ -21,7 +20,7 @@ import javafx.util.Duration;
 
 import java.time.LocalTime;
 
-public class IntersectionThread extends Thread{
+class IntersectionThread extends Thread{
 	private AnchorPane pn_fruits, pn_main;
 	private Path path;
 	private LocalTime comboTime = LocalTime.now();
@@ -53,7 +52,7 @@ public class IntersectionThread extends Thread{
 		}
 	}
 
-	boolean isIntersecting(Node node) {
+	private boolean isIntersecting(Node node) {
 		if(path.getBoundsInParent().intersects(node.getBoundsInParent())){
 			if( node.getUserData() instanceof Banana)
 				specialFruitLabel(node);
@@ -81,14 +80,13 @@ public class IntersectionThread extends Thread{
 		return false;
 	}
 
-	void updateCombo(Node node) {
+	private void updateCombo(Node node) {
 		if(combo > 1) {
 			int temp = combo;
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
 			Game.getCurrentGame().addScore(combo*5);
-			Controller.executeCommand(new UpdateScoreCommand());
 			Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
 			Label comboLabel = new Label();
 			comboLabel.setText(temp + " FRUIT COMBO!\n+" + combo*5);
@@ -117,12 +115,11 @@ public class IntersectionThread extends Thread{
 
 		}	}
 
-	void specialFruitLabel(Node node) {
+	private void specialFruitLabel(Node node) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 		Game.getCurrentGame().addScore(combo*5);
-		Controller.executeCommand(new UpdateScoreCommand());
 		Bounds boundsInScene = node.localToScene(node.getBoundsInLocal());
 		Label fruitLabel = new Label();
 		fruitLabel.setText("SPECIAL FRUIT!");
