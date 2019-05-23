@@ -23,7 +23,7 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		Font.loadFont("/go3v2.ttf",10);
+		Font.loadFont(Main.class.getResource("/go3v2.ttf").toString(),10);
 		launch(args);
 	}
 }
